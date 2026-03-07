@@ -1,0 +1,9 @@
+appName: servicename
+appimage: us-central1-docker.pkg.dev/google-samples/microservices-demo/servicename
+appVersion: v0.10.4
+replicaCount: 1
+containerPort: 8080
+volumeName: servicename-volume
+containerMountPath: /data
+servicePort: 8080
+

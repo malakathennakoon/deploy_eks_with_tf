@@ -1,0 +1,13 @@
+appName: servicename
+appimage: us-central1-docker.pkg.dev/google-samples/microservices-demo/servicename
+appVersion: v0.10.4
+replicaCount: 1
+containerPort: 8080
+containerEnvVars:
+  - name: "ENV_VAR1"
+    value: "value1"
+  - name: "ENV_VAR2"
+    value: "value2"   
+
+serviceType: ClusterIP
+servicePort: 80
