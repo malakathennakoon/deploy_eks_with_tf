@@ -3,7 +3,7 @@ pipeline {
     agent any
     tools{
         # define maven tool with name 'maven' in Jenkins global tools configuration
-        maven 'Maven'
+        maven 'maven-3.9'
     }
 
     stages {
