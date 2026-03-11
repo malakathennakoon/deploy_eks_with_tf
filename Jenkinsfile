@@ -2,7 +2,7 @@ def gv
 pipeline {
     agent any
     tools{
-        # define maven tool with name 'maven' in Jenkins global tools configuration
+        // define maven tool with name 'maven' in Jenkins global tools configuration
         maven 'maven-3.9'
     }
 
