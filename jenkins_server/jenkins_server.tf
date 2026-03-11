@@ -65,6 +65,8 @@ resource "aws_instance" "jenkins_server" {
                 --name jenkins \
                 -p 8080:8080 -p 50000:50000 \
                 -v /home/ec2-user/jenkins_home:/var/jenkins_home \
+                -v /var/run/docker.sock:/var/run/docker.sock \
+                -v $(which docker):/usr/bin/docker \
                 -e JAVA_OPTS="-Xms1g -Xmx3g"
                 --restart always \
                 jenkins/jenkins:lts

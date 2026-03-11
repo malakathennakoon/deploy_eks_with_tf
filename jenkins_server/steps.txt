@@ -1,0 +1,9 @@
+change permissions of the docker sock file inside the container
+
+
+root@19412870770d:/# ls -la /var/run/docker.sock 
+srw-rw---- 1 root 399 0 Mar 11 10:44 /var/run/docker.sock
+root@19412870770d:/# 
+root@19412870770d:/# chmod 666 /var/run/docker.sock
+root@19412870770d:/# ls -la /var/run/docker.sock
+srw-rw-rw- 1 root 399 0 Mar 11 10:44 /var/run/docker.sock

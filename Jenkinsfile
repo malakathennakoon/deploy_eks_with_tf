@@ -7,35 +7,26 @@ pipeline {
     }
 
     stages {
-        // stage('Init') {
-        //     script {
-        //         gv = load 'script.groovy'
-        //     }
-        // }
+        stage('Init') {
+            script {
+                gv = load 'script.groovy'
+            }
+         }
 
         stage('Build jar') {
-            steps {
-                sh 'echo "Building the application..."'
-                sh 'mvn package'
+            script {
+                gv.buildJar()
             }
         }
         stage('build image') {
-
-            steps {
-                echo 'echo "Building the Docker image..."'
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh 'echo "Logging in to Docker Hub..."'
-                    sh 'echo $PASS | docker login -u $USER --password-stdin'
-                    sh 'docker build -t shiranatdocker/demo-app:jma-1.0 .'
-                    sh 'docker push shiranatdocker/demo-app:jma-1.0'
-                } 
+            script {
+                gv.buildImage()
             }
 
         }
         stage('Deploy') {
-            steps {
-                echo 'Deploying...'
-                sh 'echo "Deploying the application..."'
+            script {
+                gv.deployApp()
             }
         }
     }
