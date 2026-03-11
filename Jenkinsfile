@@ -8,25 +8,33 @@ pipeline {
 
     stages {
         stage('Init') {
-            script {
-                gv = load 'script.groovy'
+            steps {
+                script {
+                    gv = load 'script.groovy'
+                }
             }
          }
 
         stage('Build jar') {
-            script {
-                gv.buildJar()
+            steps {
+                script {
+                    gv.buildJar()
+                }
             }
         }
         stage('build image') {
-            script {
-                gv.buildImage()
+            steps {
+                script {
+                    gv.buildImage()
+                }
             }
 
         }
         stage('Deploy') {
-            script {
-                gv.deployApp()
+            steps {
+                script {
+                    gv.deployApp()
+                }
             }
         }
     }
