@@ -20,5 +20,4 @@ def deployApp() {
     sh 'echo "Deploying the application..."'
 }
 
-def
 return this
