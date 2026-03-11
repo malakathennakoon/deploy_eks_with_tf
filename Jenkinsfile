@@ -14,7 +14,7 @@ pipeline {
         // }
 
         stage('Build jar') {
-            script {
+            steps {
                 sh 'echo "Building the application..."'
                 sh 'mvn package'
             }
