@@ -35,6 +35,7 @@ pipeline {
             steps {
                 script {
                    buildImage(params.image_name, params.version)
+                   pushImage(params.image_name, params.version)
                 }
             }
 
