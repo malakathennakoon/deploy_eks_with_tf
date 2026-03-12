@@ -10,6 +10,10 @@ pipeline {
         // define maven tool with name 'maven' in Jenkins global tools configuration
         maven 'maven-3.9'
     }
+    parameters {
+        string(name: 'image_name', defaultValue: 'shiranatdocker/demo-app:jma', description: 'Image name')
+        string(name: 'version', defaultValue: '1.0', description: 'Image version')
+    }
 
     stages {
         stage('Init') {
@@ -30,7 +34,7 @@ pipeline {
         stage('build image') {
             steps {
                 script {
-                   buildImage()
+                   buildImage(params.image_name, params.version)
                 }
             }
 
