@@ -34,6 +34,7 @@ pipeline {
         stage('build image') {
             steps {
                 script {
+                   dockerLogin()
                    buildImage(params.image_name, params.version)
                    pushImage(params.image_name, params.version)
                 }
