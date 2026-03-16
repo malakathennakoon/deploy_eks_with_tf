@@ -85,7 +85,7 @@ resource "aws_route_table_association" "aws_route_table_association_3" {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 19.0"
+  version = "~> 20.24.1"
 
   cluster_name    = "allianz-sales-eks-cluster"
   cluster_version = "1.33"
@@ -107,7 +107,24 @@ module "eks" {
       instance_types = ["t3.medium"]
     }
   }
+  enable_cluster_creator_admin_permissions = true
+  access_entries = {
 
+    eks_users = {
+      principal_arn = "arn:aws:iam::975050243656:group/eks-users"
+
+      policy_associations = {
+        admin_policy = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+
+          access_scope = {
+            type = "cluster"
+          }
+        }
+      }
+    }
+  }
+  
 }
 
 

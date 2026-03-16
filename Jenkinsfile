@@ -87,7 +87,7 @@ pipeline {
             }
         }
 
-        stage('Configure kubeconfig') {
+        stage('Configure kubeconfig and deploy manifests') {
             steps {
                 withCredentials([[
                 $class: 'AmazonWebServicesCredentialsBinding',
@@ -100,16 +100,10 @@ pipeline {
                     --region $AWS_REGION
 
                 kubectl get nodes
-                '''
-                }
-            }
-        }
-
-        stage('Deploy Microservices') {
-            steps {
-                sh '''
+                echo "Deploying microservices to EKS cluster..."
                 kubectl apply -f manifests/
                 '''
+                }
             }
         }
     }
