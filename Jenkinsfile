@@ -41,11 +41,75 @@ pipeline {
             }
 
         }
-        stage('Deploy') {
+        stage('Terraform Apply') {
+            steps {
+                withCredentials([[
+                $class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'jenkins-credentials'
+                ]]) {
+                sh '''
+                terraform init
+                terraform apply -auto-approve
+                '''
+                }
+            }
+        }
+
+        stage('Get Terraform Outputs') {
             steps {
                 script {
-                    gv.deployApp()
+                env.CLUSTER_NAME = sh(
+                    script: "terraform output -raw cluster_name",
+                    returnStdout: true
+                ).trim()
+
+                env.AWS_REGION = sh(
+                    script: "terraform output -raw cluster_region",
+                    returnStdout: true
+                ).trim()
                 }
+            }
+        }
+        stage('Wait for EKS Cluster') {
+            steps {
+                withCredentials([[
+                $class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'jenkins-credentials'
+                ]]) {
+
+                sh '''
+                aws eks wait cluster-active \
+                    --name $CLUSTER_NAME \
+                    --region $AWS_REGION
+                '''
+
+                }
+            }
+        }
+
+        stage('Configure kubeconfig') {
+            steps {
+                withCredentials([[
+                $class: 'AmazonWebServicesCredentialsBinding',
+                credentialsId: 'jenkins-credentials'
+                ]]) {
+
+                sh '''
+                aws eks update-kubeconfig \
+                    --name $CLUSTER_NAME \
+                    --region $AWS_REGION
+
+                kubectl get nodes
+                '''
+                }
+            }
+        }
+
+        stage('Deploy Microservices') {
+            steps {
+                sh '''
+                kubectl apply -f manifests/
+                '''
             }
         }
     }

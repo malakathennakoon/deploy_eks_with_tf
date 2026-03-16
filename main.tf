@@ -81,6 +81,8 @@ resource "aws_route_table_association" "aws_route_table_association_3" {
   subnet_id      = aws_subnet.subnet_3.id
   route_table_id = aws_route_table.alllianz_rt.id
 }
+
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 19.0"
@@ -105,4 +107,15 @@ module "eks" {
       instance_types = ["t3.medium"]
     }
   }
+  manage_aws_auth_configmap = true
+
+  aws_auth_roles = [
+    {
+      rolearn  = "arn:aws:iam::975050243656:role/eks-deployer-role"
+      username = "jenkins-user"
+      groups   = ["system:masters"]
+    }
+  ]
 }
+
+
