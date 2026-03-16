@@ -107,15 +107,7 @@ module "eks" {
       instance_types = ["t3.medium"]
     }
   }
-  manage_aws_auth_configmap = true
 
-  aws_auth_roles = [
-    {
-      rolearn  = "arn:aws:iam::975050243656:role/eks-deployer-role"
-      username = "jenkins-user"
-      groups   = ["system:masters"]
-    }
-  ]
 }
 
 
