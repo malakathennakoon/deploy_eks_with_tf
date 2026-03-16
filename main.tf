@@ -109,12 +109,11 @@ module "eks" {
   }
   enable_cluster_creator_admin_permissions = true
   access_entries = {
-
-    eks_users = {
-      principal_arn = "arn:aws:iam::975050243656:group/eks-users"
+    malaka_admin = {
+      principal_arn = "arn:aws:iam::975050243656:user/malaka_thennakoon"
 
       policy_associations = {
-        admin_policy = {
+        admin = {
           policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 
           access_scope = {
